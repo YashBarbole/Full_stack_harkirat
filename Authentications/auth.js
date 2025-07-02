@@ -1,72 +1,89 @@
 const express=require("express")
-const jwt=require("jsonwebtoken");
-const jwtpassword="123456"
+// const jwt=require("jsonwebtoken");
+// const jwtpassword="123456";
+// const mongoose=require("mongoose");
+
+// mongoose.connect("");
+
+// const user=mongoose.model("User",{
+//     name:string,
+//     username:string,
+//     password:string,
+// });
 
 const app=express()
 app.use(express.json())
-const ALL_USERS=[//in memory database
-    {
-        username:"yasha@gmail.com",
-        password:"123",
-        name:"yasha",
-    },
-       {
-        username:"yashd@gmail.com",
-        password:"123",
-        name:"yashd",
-    },
-       {
-        username:"yashs@gmail.com",
-        password:"123",
-        name:"yashs",
-    },
-];
+// app.use(express.json())
 
-function userExists(username,password){
-    let userExists=false;
-    for(let i=0;i<ALL_USERS.length;i++){
-        if(ALL_USERS[i].username==username && ALL_USERS[i].password==password){
-            userExists=true;
-        }
-    }
-    return userExists;
-}
+// function userExists(username,password){
+  
+// }
 
-app.post("/signin",function(req,res){
+// app.post("/signin",function(req,res){
+//     const username=req.body.username;
+//     const password=req.body.password;
+
+//     if(!userExists(username,password)){
+//         return res.status(403).json({
+//             msg:"user doesnt exist bro"
+//         });
+//     }
+
+//     var token=jwt.sign({username:username},jwtpassword);
+//     return res.json({
+//         token,
+//     });
+
+// });
+
+// app.get("/users",function(req,res){
+//     const token= req.headers.authorization;
+    
+//         const decoded=jwt.verify(token,jwtpassword);
+//         const username=decoded.username;
+
+//         res.json({
+//             users:ALL_USERS.filter(function(value){
+//                 if(value.username==username){
+//                     return false
+//                 }
+//                 else{
+//                     return true
+//                 }
+//             })
+//         })
+
+    
+// });
+
+// app.listen(3000)
+
+const mongoose=require("mongoose")
+
+mongoose.connect("mongodb+srv://yashbarbole7110:Yash%40mongo@harkirat.8kpqeu6.mongodb.net/harkirat?retryWrites=true&w=majority&appName=HARKIRAT")
+
+
+const User=mongoose.model('Users',{name:String,email:String,password:String});
+
+
+app.post("/signup",async function(req,res){
     const username=req.body.username;
     const password=req.body.password;
+    const name=req.body.name;
 
-    if(!userExists(username,password)){
-        return res.status(403).json({
-            msg:"user doesnt exist bro"
-        });
+    const existinguser=await User.findOne({email:username});
+    //CRUD create read update delete
+    if(existinguser){
+        return res.status(400).send("already exists bro");
     }
 
-    var token=jwt.sign({username:username},jwtpassword);
-    return res.json({
-        token,
-    });
-
-});
-
-app.get("/users",function(req,res){
-    const token= req.headers.authorization;
+    await User.create({name:name,email:username,password:password});
     
-        const decoded=jwt.verify(token,jwtpassword);
-        const username=decoded.username;
+    res.json({
+        "msg":"user created yess yess"
+    })
 
-        res.json({
-            users:ALL_USERS.filter(function(value){
-                if(value.username==username){
-                    return false
-                }
-                else{
-                    return true
-                }
-            })
-        })
+})
 
-    
-});
 
 app.listen(3000)
