@@ -60,7 +60,7 @@ app.use(express.json())
 
 const mongoose=require("mongoose")
 
-mongoose.connect("mongodb+srv://yashbarbole7110:Yash%40mongo@harkirat.8kpqeu6.mongodb.net/harkirat?retryWrites=true&w=majority&appName=HARKIRAT")
+mongoose.connect("")
 
 
 const User=mongoose.model('Users',{name:String,email:String,password:String});
