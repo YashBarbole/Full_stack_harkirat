@@ -1,0 +1,25 @@
+{
+  "name": "full_stack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1.2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YashBarbole/Full_stack_harkirat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/YashBarbole/Full_stack_harkirat/issues"
+  },
+  "homepage": "https://github.com/YashBarbole/Full_stack_harkirat#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
